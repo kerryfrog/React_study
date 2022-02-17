@@ -79,10 +79,10 @@ userSchema.statics.findByToken = function(token, cb){
     var user = this;
     //토큰을 decode 한다. 
     jwt.verify(token, 'secretToken', function(err, decoded){
+        //decoded 는 user id 가 나옴 
         //유저 아이디를 이용해서 유저를 찾은 다음
-        // 클라이언트에서 가저온 token 과 db에 보관된 토큰이일치하는지 확인
-
-        user.findOne({"_id":decoded}, function(err,user){
+        // 클라이언트에서 가저온 token 과 db에 보관된 토큰이 일치하는지 확인
+        user.findOne({"_id":decoded, "token": token}, function(err,user){
             if(err) return cb(err);
             cb(null, user);
         });
